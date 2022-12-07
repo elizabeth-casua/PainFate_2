@@ -23,18 +23,19 @@ public class PlayerMovement : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Animator anim;
 
+    bool canMove;
     float timer;
     bool jumpPressed;
     float h;
-
 
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-    }
 
+        canMove = true;
+    }
 
     void Update()
     {
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         IsGrounded();
         JumpPressed();
         Attack();
+        Win();
     }
 
     void FixedUpdate()
@@ -65,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         jumpPressed = false;
         rb2D.AddForce(Vector2.up * jumpForce);
     }
+
     void IsGrounded()
     /*
      * A selective raycat (groundLayer detecting) is thrown out with rayLenght lenght,
@@ -80,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
     void Movement()
     {
         h = Input.GetAxis("Horizontal");
+
+        if(canMove)
         transform.Translate(h * speed * Time.deltaTime * Vector2.right);
     }
 
@@ -106,20 +111,37 @@ public class PlayerMovement : MonoBehaviour
 
     void Attack()
     {
-        if(Input.GetKey(KeyCode.E) && h == 0) {
+        //If pressing button E and player is standing
+        if(Input.GetKey(KeyCode.E) && h == 0) 
+        {
+            canMove = false;
             anim.SetTrigger("Attack");
         }
     }
 
     void Win()
     {
-        if(h == 0) {
+        //If player is standing
+        if(h == 0) 
+        {
             timer += Time.deltaTime;
-            if(timer >= timeForWinning) {
-
+            if(timer >= timeForWinning) 
+            {
+                timer = 0;
+                canMove = false;
+                anim.SetTrigger("Win");
             }
         }
+        //If player is moving
+        else timer = 0;
     }
+
+
+    void CanMoveToTrue()
+    {
+        canMove = true;
+    }
+
     public void ResetVelocity()
     {
 

@@ -16,7 +16,7 @@ public class Parallax : MonoBehaviour
         previousCamPos = cam.position;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if(distanceX !=0)

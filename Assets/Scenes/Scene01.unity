@@ -2281,7 +2281,7 @@ MonoBehaviour:
   rayLenght: 0.3
   isGrounded: 0
   jumpForce: 200
-  timeForWinning: 0
+  timeForWinning: 5
 --- !u!1 &826742884
 GameObject:
   m_ObjectHideFlags: 0
